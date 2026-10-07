@@ -173,7 +173,7 @@ The page refreshes every second, and each refresh adds the next value from the d
 ## Screenshot
 
 <!-- Add a screenshot of the running plot to docs/screenshot.png -->
-![Live plot](docs/screenshot.png)
+![docs/screenshot.png](docs/screenshot.png)
 
 ## Course Information
 
