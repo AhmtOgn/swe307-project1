@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
 import java.util.function.Function;
@@ -51,12 +52,21 @@ public class PlotController {
         String svg = "";
         synchronized (plotFunction) {
             // Java, MongoDB'den sıradaki satırı okur
-            Document doc = mongoTemplate.getCollection("static/data")
+            Document doc = mongoTemplate.getCollection("data")
                     .find()
                     .sort(new Document("_id", 1))
                     .skip(index)
                     .limit(1)
                     .first();
+
+            if (doc == null) {          // index veri sayısını aşmışsa başa dön
+                index = 0;
+                doc = mongoTemplate.getCollection("data")
+                        .find()
+                        .sort(new Document("_id", 1))
+                        .limit(1)
+                        .first();
+            }
 
             double value = ((Number) doc.get("Col-16")).doubleValue();
             index = (index + 1) % 100;
